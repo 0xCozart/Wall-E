@@ -1,9 +1,10 @@
+import { ChangeEvent, SyntheticEvent, useState } from "react";
+
 import { FormField } from "../components";
 import Loader from "../components/Loader";
 import { getRandomPrompt } from "../utils";
 import { preview } from "../assets";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 const CreatePost = () => {
   const navigate = useNavigate();
@@ -33,8 +34,35 @@ const CreatePost = () => {
       alert("Please enter a prompt");
     }
   };
-  const handleChange = () => {};
-  const handleSubmit = () => {};
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
+
+    if (form.prompt && form.photo) {
+      setLoading(true);
+
+      try {
+        const response = await fetch("http:localhost:8080/api/v1/post", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+
+        await response.json();
+        navigate("/");
+      } catch (error) {
+        alert(error);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert("Please enter prompt and generate an image");
+    }
+  };
+
   const handleSurpriseMe = () => {
     const randomPrompt = getRandomPrompt();
     setForm({ ...form, prompt: randomPrompt });
