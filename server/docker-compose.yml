@@ -4,8 +4,16 @@ services:
   walleserver:
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: ./Dockerfile
       target: base
+    restart: always
+    env_file: .env
+    environment:
+      - MONGODB_URL=${MONGODB_URL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - CLOUD_API_KEY=${CLOUD_API_KEY}
+      - CLOUD_CLOUD_NAME=${CLOUD_CLOUD_NAME}
+      - CLOUD_API_SECRET=${CLOUD_API_SECRET}
     volumes:
       - ./src:/home/node/app/src
       - ./nodemon.json:/home/node/app/nodemon.json
