@@ -19,7 +19,8 @@
     "pretest": "npm run compile",
     "posttest": "npm run lint",
     "dev": "nodemon -L",
-    "start": "ts-node ./src/index.ts"
+    "start": "ts-node ./src/index.ts",
+    "prod": "node ./build/src/index.js"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",

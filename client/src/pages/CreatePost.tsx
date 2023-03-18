@@ -34,6 +34,7 @@ const CreatePost = () => {
       alert("Please enter a prompt");
     }
   };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -45,13 +46,13 @@ const CreatePost = () => {
       setLoading(true);
 
       try {
-        const response = await fetch("http:localhost:8080/api/v1/post", {
+        const response = await fetch("http://localhost:8080/api/v1/post", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
         });
 
-        await response.json();
+        console.log({ res: await response.json() });
         navigate("/");
       } catch (error) {
         alert(error);

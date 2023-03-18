@@ -1,10 +1,22 @@
 import { Card, FormField, Loader } from "../components";
+import { ChangeEvent, useEffect, useState } from "react";
 
-import { useState } from "react";
+import { ImageData } from "../types";
 
-const RenderCards = ({ data, title }) => {
+interface RenderCardsProps {
+  data: ImageData[];
+  title: string;
+}
+
+const RenderCards = ({ data, title }: RenderCardsProps) => {
   if (data.length > 0)
-    return data.map((post) => <Card key={post.id} {...post} />);
+    return (
+      <>
+        {data.map((post) => (
+          <Card key={post._id} {...post} />
+        ))}
+      </>
+    );
 
   return (
     <h2 className="mt-5 font-bold text-[#6449ff] text-xl uppercase">{title}</h2>
@@ -13,8 +25,49 @@ const RenderCards = ({ data, title }) => {
 
 function Home() {
   const [loading, setLoading] = useState(false);
-  const [allPost, setAllPost] = useState(null);
+  const [allPosts, setAllPosts] = useState<any>([]);
   const [searchText, setSearchText] = useState("");
+  const [searchedResults, setSearchedResults] = useState<any[]>([]);
+  const [searchTimeout, setSearchTimeout] = useState<any>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/post", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+        if (response.ok) {
+          const result = await response.json();
+          setAllPosts(result.data.reverse());
+        }
+      } catch (error) {
+        alert(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    clearTimeout(searchTimeout);
+    setSearchText(e.target.value);
+    setSearchTimeout(
+      setTimeout(() => {
+        const results = allPosts.filter(
+          (item: any) =>
+            item.name.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.prompt.toLowerCase().includes(searchText.toLowerCase())
+        );
+
+        setSearchedResults(results);
+      }, 500)
+    );
+  };
+
   return (
     <section className="max-w-7x1 mx-auto">
       <div>
@@ -26,9 +79,16 @@ function Home() {
         </p>
       </div>
       <div className="mt-16">
-        <FormField />
+        <FormField
+          labelName="Search posts"
+          type="text"
+          name="text"
+          placeholder="Search posts"
+          value={searchText}
+          handleChange={handleSearchChange}
+        />
       </div>
-      <div className="mt-160">
+      <div className="mt-10">
         {loading ? (
           <div className="flex justify-center items-center">
             <Loader />
@@ -43,9 +103,12 @@ function Home() {
             )}
             <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
               {searchText ? (
-                <RenderCards data={[]} title="No search results found" />
+                <RenderCards
+                  data={searchedResults}
+                  title="No search results found"
+                />
               ) : (
-                <RenderCards data={[]} title="No posts found" />
+                <RenderCards data={allPosts} title="No posts found" />
               )}
             </div>
           </>
