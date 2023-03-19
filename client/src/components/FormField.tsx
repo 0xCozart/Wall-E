@@ -1,10 +1,14 @@
-import { InputHTMLAttributes } from "react";
+import {
+  ChangeEventHandler,
+  InputHTMLAttributes,
+  MouseEventHandler,
+} from "react";
 
 interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   labelName: string;
-  handleChange: Function;
+  handleChange: ChangeEventHandler<HTMLInputElement> | undefined;
   isSurpriseMe?: boolean;
-  handleSurpriseMe?: Function;
+  handleSurpriseMe?: MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
 const FormField = ({
