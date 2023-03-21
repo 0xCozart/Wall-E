@@ -1,5 +1,5 @@
-import { Card, FormField, Loader } from "../components";
 import { ChangeEvent, useEffect, useState } from "react";
+import { Card, FormField, Loader } from "../components";
 
 import { ImageData } from "../types";
 
@@ -77,8 +77,12 @@ function Home() {
         <h1 className="font-extrabold text-[#222328] text-[32px]">
           The Community Showcase
         </h1>
-        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">
+        <p className="mt-2 text-[#666e75] text-[16px] max-w-[500px]">
           Browse previously generated images from OpenAI's DALLE.
+        </p>
+        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">
+          &#40;Please allow a few minutes for the client to retrieve the
+          images.&#41;
         </p>
       </div>
       <div className="mt-16">
