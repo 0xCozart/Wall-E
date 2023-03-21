@@ -1,4 +1,4 @@
-# Walle - AI Image Generator
+# [Walle](https://walle.website/) - AI Image Generator
 
 Walle is a cutting-edge AI-powered image generating app that allows users to create stunning visuals and share them on a community showcase. It leverages MongoDB, Express, React, Cloudinary, and OpenAI to deliver a seamless and interactive experience.
 
