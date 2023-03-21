@@ -2,7 +2,7 @@
 
 Walle is a cutting-edge AI-powered image generating app that allows users to create stunning visuals and share them on a community showcase. It leverages MongoDB, Express, React, Cloudinary, and OpenAI to deliver a seamless and interactive experience.
 
-![Walle banner](./walle-banner.png)
+![walle](https://user-images.githubusercontent.com/16884781/226513990-70d6c9eb-7f74-4db1-b736-05a6b90d2689.jpg)
 
 ## Tech Stack
 
